@@ -1,4 +1,4 @@
-package com.example.backend.game;
+package backend.game;
 import java.time.LocalDateTime;
 public class Game {
   private Long id;
