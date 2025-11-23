@@ -20,3 +20,22 @@
 - ✅ Mock-API implementiert (`frontend/src/services/api.js`)
 - ✅ Code auf GitHub gepusht (`/frontend`)
 
+## M3-Status ✅
+
+### ✔ Backend (Spring Boot)
+- REST-API mit `/api/games` vollständig implementiert  
+- Backend läuft lokal auf Port **8080**
+- GET-Route liefert gültiges JSON (z. B. `[]` bei leerer Liste)
+- POST/PUT/DELETE für Spiele funktionieren lokal
+- Dockerfile hinzugefügt für Render-Deployment
+
+### ✔ Frontend (Vue.js)
+- Vue-Single-Page-Application läuft lokal auf Port **5173**
+- Frontend ruft die echte Backend-API `/api/games` per Fetch/Ajax auf
+- Spiele können lokal erstellt, angezeigt, bearbeitet und gelöscht werden
+- Mock-API wurde vollständig durch echte REST-API ersetzt
+
+### ✔ Verbindung Frontend → Backend
+- Frontend lädt beim Start die Spieleliste über:
+
+GET http://localhost:8080/api/games
