@@ -1,5 +1,6 @@
-package backend.game;
+package com.example.backend;
 import java.time.LocalDateTime;
+
 public class Game {
   private Long id;
   private String opponent;

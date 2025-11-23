@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend;  // ← GENAU SO
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,3 +9,4 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 }
+

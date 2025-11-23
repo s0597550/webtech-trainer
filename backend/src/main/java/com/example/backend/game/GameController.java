@@ -1,4 +1,4 @@
-package backend.game;
+package com.example.backend;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
