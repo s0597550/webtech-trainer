@@ -11,4 +11,5 @@ RUN chmod +x ./gradlew && ./gradlew clean build -x test
 EXPOSE 8080
 
 # starte das erzeugte Spring-Boot-Jar (egal wie es genau heißt)
-CMD ["sh", "-c", "java -jar build/libs/*.jar"]
+CMD ["java", "-jar", "build/libs/backend-0.0.1-SNAPSHOT.jar"]
+
