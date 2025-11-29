@@ -12,3 +12,5 @@ EXPOSE 8080
 
 # Spring Boot Jar starten (egal wie es heißt)
 CMD ["sh", "-c", "java -jar build/libs/*.jar"]
+
+//
