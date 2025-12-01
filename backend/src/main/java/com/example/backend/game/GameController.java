@@ -1,6 +1,8 @@
-package com.example.backend;
+package com.example.backend.game;
 
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -8,10 +10,12 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
 @RequestMapping("/api/games")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class GameController {
 
-    private final List<Game> store = new ArrayList<>();
+    private final List<Game> store = List.of(
+            new Game(42L, "test", LocalDateTime.now(), "test")
+    );
     private final AtomicLong seq = new AtomicLong(1);
 
     @GetMapping

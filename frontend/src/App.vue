@@ -7,16 +7,12 @@
 
     <section class="layout">
       <GameForm
-          :initial="editingGame"
-          @cancel="cancelEdit"
-          @saved="handleSaved"
+          @saved="loadGames"
       />
 
       <GameList
           :games="games"
           :loading="loading"
-          @edit="startEdit"
-          @remove="removeGame"
       />
     </section>
   </main>
@@ -30,12 +26,11 @@ import GameForm from './components/GameForm.vue'
 
 const games = ref([])
 const loading = ref(false)
-const editingGame = ref(null)
 
 async function loadGames() {
   loading.value = true
   try {
-    const { data } = await api.get('/games')
+    const { data } = await api.get()   // FIX: kein /games
     games.value = data
   } catch (e) {
     console.error(e)
@@ -43,35 +38,6 @@ async function loadGames() {
   } finally {
     loading.value = false
   }
-}
-
-function startEdit(game) {
-  editingGame.value = { ...game }
-}
-
-function cancelEdit() {
-  editingGame.value = null
-}
-
-async function removeGame(gameId) {
-  if (!confirm('Spiel wirklich löschen?')) return
-  try {
-    await api.delete(`/games/${gameId}`)
-    games.value = games.value.filter(g => g.id !== gameId)
-  } catch (e) {
-    console.error(e)
-    alert('Löschen fehlgeschlagen')
-  }
-}
-
-async function handleSaved(saved) {
-  const idx = games.value.findIndex(g => g.id === saved.id)
-  if (idx >= 0) {
-    games.value[idx] = saved
-  } else {
-    games.value.unshift(saved)
-  }
-  editingGame.value = null
 }
 
 onMounted(loadGames)
