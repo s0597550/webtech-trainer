@@ -24,6 +24,9 @@
 import { reactive } from 'vue'
 import { api } from '../services/api.js'
 
+const emit = defineEmits(['saved'])
+
+
 // Das Formularmodell
 const form = reactive({
   opponent: '',
@@ -33,8 +36,9 @@ const form = reactive({
 
 // Hilfsfunktion: wandelt datetime-local in ISO um, wie Backend erwartet
 function toIso(localStr) {
-  return new Date(localStr).toISOString()
+  return localStr.length === 16 ? `${localStr}:00` : localStr
 }
+
 
 // Formular zurücksetzen
 function reset() {
@@ -52,7 +56,8 @@ async function submit() {
   }
 
   try {
-    const res = await api.post(payload)
+    await api.post('', payload)
+    emit('saved')
     alert("Spiel gespeichert!")
     reset()
   } catch (e) {
