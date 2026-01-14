@@ -15,6 +15,11 @@
           :loading="loading"
       />
     </section>
+
+    <!-- 👥 SPIELERLISTE -->
+    <section style="margin-top: 2rem">
+      <PlayerList />
+    </section>
   </main>
 </template>
 
@@ -23,6 +28,9 @@ import { onMounted, ref } from 'vue'
 import { api } from './services/api'
 import GameList from './components/GameList.vue'
 import GameForm from './components/GameForm.vue'
+import PlayerList from './components/PlayerList.vue'
+import GameStats from './components/GameStats.vue'
+
 
 const games = ref([])
 const loading = ref(false)
@@ -30,7 +38,7 @@ const loading = ref(false)
 async function loadGames() {
   loading.value = true
   try {
-    const { data } = await api.get()   // FIX: kein /games
+    const { data } = await api.get()
     games.value = data
   } catch (e) {
     console.error(e)

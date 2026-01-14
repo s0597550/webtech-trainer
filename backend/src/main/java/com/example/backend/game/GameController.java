@@ -3,7 +3,6 @@ package com.example.backend.game;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/games")
@@ -37,5 +36,34 @@ public class GameController {
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         repo.deleteById(id);
+    }
+
+    // ==========================
+    // 👍 ZUSAGE (LIKE)
+    // ==========================
+    @PostMapping("/{id}/like")
+    public Game like(@PathVariable Long id) {
+        Game game = repo.findById(id).orElseThrow();
+        game.setLikes(game.getLikes() + 1);
+        return repo.save(game);
+    }
+
+    // ==========================
+    // 👎 ABSAGE (DISLIKE)
+    // ==========================
+    @PostMapping("/{id}/dislike")
+    public Game dislike(@PathVariable Long id) {
+        Game game = repo.findById(id).orElseThrow();
+        game.setDislikes(game.getDislikes() + 1);
+        return repo.save(game);
+    }
+    // ==========================
+    // 🏁 ERGEBNIS SETZEN
+    // ==========================
+    @PutMapping("/{id}/result")
+    public Game setResult(@PathVariable Long id, @RequestBody String result) {
+        Game game = repo.findById(id).orElseThrow();
+        game.setResult(result);
+        return repo.save(game);
     }
 }
