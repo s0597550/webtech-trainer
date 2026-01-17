@@ -13,6 +13,9 @@
       <GameList
           :games="games"
           :loading="loading"
+          @remove="deleteGame"
+          @edit="editGame"
+          @reload="loadGames"
       />
     </section>
 
@@ -37,7 +40,6 @@ const loading = ref(false)
 async function loadGames() {
   loading.value = true
   try {
-    // ✅ EINZIGE ÄNDERUNG: korrekter API-Pfad
     const data = await api.get('/api/games')
     games.value = data
   } catch (e) {
@@ -47,6 +49,20 @@ async function loadGames() {
     loading.value = false
   }
 }
+
+/* =========================
+   NUR HINZUGEFÜGT
+========================= */
+async function deleteGame(id) {
+  if (!confirm('Spiel wirklich löschen?')) return
+  await api.delete(`/api/games/${id}`)
+  loadGames()
+}
+
+function editGame(game) {
+  alert('Bearbeiten ist noch nicht implementiert')
+}
+/* ========================= */
 
 onMounted(loadGames)
 </script>
