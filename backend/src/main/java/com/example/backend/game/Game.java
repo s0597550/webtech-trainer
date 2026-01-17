@@ -58,6 +58,11 @@ public class Game {
         this.dateTime = dateTime;
     }
 
+    // ✅ NUR HINZUGEFÜGT – Alias für Frontend
+    public LocalDateTime getKickoff() {
+        return dateTime;
+    }
+
     public String getLocation() {
         return location;
     }

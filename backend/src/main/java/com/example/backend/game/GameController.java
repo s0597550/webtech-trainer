@@ -1,7 +1,6 @@
 package com.example.backend.game;
 
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,7 +21,6 @@ public class GameController {
 
     @PostMapping
     public Game create(@RequestBody Game g) {
-        // id wird von DB/JPA vergeben (@GeneratedValue)
         g.setId(null);
         return repo.save(g);
     }
@@ -57,13 +55,18 @@ public class GameController {
         game.setDislikes(game.getDislikes() + 1);
         return repo.save(game);
     }
+
     // ==========================
     // 🏁 ERGEBNIS SETZEN
     // ==========================
     @PutMapping("/{id}/result")
     public Game setResult(@PathVariable Long id, @RequestBody String result) {
         Game game = repo.findById(id).orElseThrow();
-        game.setResult(result);
+
+        // 🔑 EINZIG WICHTIGE ERGÄNZUNG:
+        // JSON-Quotes entfernen ("2:1" → 2:1)
+        game.setResult(result.replace("\"", ""));
+
         return repo.save(game);
     }
 }
