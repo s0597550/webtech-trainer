@@ -30,38 +30,31 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { api } from '../services/api.js'
 
 const players = ref([])
 const newName = ref('')
 
-const API = 'http://localhost:8080/api/players'
-
 async function load() {
-  const res = await fetch(API)
-  players.value = await res.json()
+  players.value = await api.get('/api/players')
 }
 
 async function addPlayer() {
-  await fetch(API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name: newName.value, status: 'Anwesend' })
+  await api.post('/api/players', {
+    name: newName.value,
+    status: 'Anwesend'
   })
   newName.value = ''
   load()
 }
 
 async function updateStatus(player) {
-  await fetch(`${API}/${player.id}/status`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(player.status)
-  })
+  await api.post(`/api/players/${player.id}/status`, player.status)
   load()
 }
 
 async function remove(id) {
-  await fetch(`${API}/${id}`, { method: 'DELETE' })
+  await api.delete(`/api/players/${id}`)
   load()
 }
 

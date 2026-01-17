@@ -1,29 +1,64 @@
-// frontend/src/services/api.js
-// Echte HTTP API mit fetch – funktioniert lokal und auf Render
+/// frontend/src/services/api.js
 
-// BASE_URL kommt aus Render-Umgebungsvariable,
-// oder lokal wird localhost:8080 verwendet
-// frontend/src/services/api.js
-// Echte HTTP API mit fetch – funktioniert lokal und auf Render
+// In Production kommt die URL aus Render (ENV)
+// Lokal fällt es automatisch auf localhost:8080 zurück
+const API_BASE_URL =
+    import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
-// BASE_URL kommt aus Render-Umgebungsvariable,
-// oder lokal wird localhost:8080 verwendet
-const API_BASE_URL = "https://webtech-trainer-4.onrender.com/api/games";
-
+// Zentrale API-Funktionen für das Backend
 export const api = {
-    async get() {
-        const res = await fetch(API_BASE_URL);
-        const data = await res.json();
-        return { data };
+    async get(path) {
+        const res = await fetch(`${API_BASE_URL}${path}`);
+        if (!res.ok) {
+            throw new Error(`GET ${path} failed: ${res.status}`);
+        }
+        return await res.json();
     },
 
-    async post(payload) {
-        const res = await fetch(API_BASE_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
+    async post(path, payload) {
+        const res = await fetch(`${API_BASE_URL}${path}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: payload !== undefined ? JSON.stringify(payload) : null
         });
-        const data = await res.json();
-        return { data };
+
+        if (!res.ok) {
+            throw new Error(`POST ${path} failed: ${res.status}`);
+        }
+
+        // falls Backend nichts zurückgibt
+        if (res.status === 204) return null;
+        return await res.json();
+    },
+
+    async put(path, payload) {
+        const res = await fetch(`${API_BASE_URL}${path}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: payload !== undefined ? JSON.stringify(payload) : null
+        });
+
+        if (!res.ok) {
+            throw new Error(`PUT ${path} failed: ${res.status}`);
+        }
+
+        if (res.status === 204) return null;
+        return await res.json();
+    },
+
+    async delete(path) {
+        const res = await fetch(`${API_BASE_URL}${path}`, {
+            method: 'DELETE'
+        });
+
+        if (!res.ok) {
+            throw new Error(`DELETE ${path} failed: ${res.status}`);
+        }
+
+        return null;
     }
 };

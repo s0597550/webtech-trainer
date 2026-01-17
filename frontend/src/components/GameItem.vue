@@ -40,6 +40,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import { api } from '../services/api.js'
 
 const props = defineProps({
   game: { type: Object, required: true }
@@ -47,26 +48,20 @@ const props = defineProps({
 
 const emit = defineEmits(['reload'])
 
-const API_BASE = 'https://webtech-trainer-4.onrender.com/api/games'
-
 const result = ref(props.game.result || '')
 
 async function likeGame() {
-  await fetch(`${API_BASE}/${props.game.id}/like`, { method: 'POST' })
+  await api.post(`/api/games/${props.game.id}/like`)
   emit('reload')
 }
 
 async function dislikeGame() {
-  await fetch(`${API_BASE}/${props.game.id}/dislike`, { method: 'POST' })
+  await api.post(`/api/games/${props.game.id}/dislike`)
   emit('reload')
 }
 
 async function saveResult() {
-  await fetch(`${API_BASE}/${props.game.id}/result`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(result.value)
-  })
+  await api.post(`/api/games/${props.game.id}/result`, result.value)
   emit('reload')
 }
 
