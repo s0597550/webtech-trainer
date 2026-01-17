@@ -3,7 +3,9 @@
     <div class="main">
       <strong>{{ game.opponent }}</strong>
       <span>•</span>
-      <time :datetime="game.kickoff">{{ formatDate(game.kickoff) }}</time>
+      <time :datetime="game.kickoff">
+        {{ formatDate(game.kickoff || game.dateTime) }}
+      </time>
       <span>•</span>
       <span>{{ game.location }}</span>
 
@@ -56,7 +58,9 @@ async function dislikeGame() {
 }
 
 async function saveResult() {
-  await api.post(`/api/games/${props.game.id}/result`, result.value)
+  await api.post(`/api/games/${props.game.id}/result`, {
+    result: result.value
+  })
   emit('reload')
 }
 
