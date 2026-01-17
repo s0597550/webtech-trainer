@@ -15,17 +15,24 @@
     </label>
 
     <div class="row">
-      <button type="submit">Anlegen</button>
+      <button type="submit">
+        {{ game ? 'Änderungen speichern' : 'Anlegen' }}
+      </button>
     </div>
   </form>
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { reactive, watch } from 'vue'
 import { api } from '../services/api.js'
 
-const emit = defineEmits(['saved'])
+/* ======= NUR ERGÄNZT ======= */
+const props = defineProps({
+  game: { type: Object, default: null }
+})
+/* ========================== */
 
+const emit = defineEmits(['saved'])
 
 // Das Formularmodell
 const form = reactive({
@@ -33,6 +40,19 @@ const form = reactive({
   dateTimeLocal: '',
   location: ''
 })
+
+// ======= NUR ERGÄNZT =======
+watch(
+    () => props.game,
+    (g) => {
+      if (!g) return
+      form.opponent = g.opponent
+      form.location = g.location
+      form.dateTimeLocal = g.kickoff?.slice(0, 16)
+    },
+    { immediate: true }
+)
+// ==========================
 
 // Hilfsfunktion: wandelt datetime-local in ISO um, wie Backend erwartet
 function toIso(localStr) {
@@ -55,15 +75,20 @@ async function submit() {
   }
 
   try {
-    // ✅ EINZIGE ÄNDERUNG: korrekter API-Pfad
-    await api.post('/api/games', payload)
+    /* ======= NUR ERGÄNZT ======= */
+    if (props.game) {
+      await api.put(`/api/games/${props.game.id}`, payload)
+    } else {
+      await api.post('/api/games', payload)
+    }
+    /* ========================== */
 
     emit('saved')
-    alert("Spiel gespeichert!")
+    alert('Spiel gespeichert!')
     reset()
   } catch (e) {
     console.error(e)
-    alert("Speichern fehlgeschlagen")
+    alert('Speichern fehlgeschlagen')
   }
 }
 </script>

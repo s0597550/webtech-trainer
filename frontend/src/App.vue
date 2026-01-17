@@ -7,7 +7,8 @@
 
     <section class="layout">
       <GameForm
-          @saved="loadGames"
+          :game="editingGame"
+          @saved="onSaved"
       />
 
       <GameList
@@ -37,6 +38,10 @@ import GameStats from './components/GameStats.vue'
 const games = ref([])
 const loading = ref(false)
 
+/* ======= NUR ERGÄNZT ======= */
+const editingGame = ref(null)
+/* ========================== */
+
 async function loadGames() {
   loading.value = true
   try {
@@ -51,7 +56,7 @@ async function loadGames() {
 }
 
 /* =========================
-   NUR HINZUGEFÜGT
+   BESTEHEND + ERWEITERT
 ========================= */
 async function deleteGame(id) {
   if (!confirm('Spiel wirklich löschen?')) return
@@ -59,10 +64,16 @@ async function deleteGame(id) {
   loadGames()
 }
 
+/* ======= NUR ERSETZT ======= */
 function editGame(game) {
-  alert('Bearbeiten ist noch nicht implementiert')
+  editingGame.value = game
 }
-/* ========================= */
+
+function onSaved() {
+  editingGame.value = null
+  loadGames()
+}
+/* ========================== */
 
 onMounted(loadGames)
 </script>

@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'   // ⬅️ NUR ERGÄNZT
 import { api } from '../services/api.js'
 
 const props = defineProps({
@@ -46,6 +46,14 @@ const props = defineProps({
 const emit = defineEmits(['reload'])
 
 const result = ref(props.game.result || '')
+
+// ⬅️ NUR DAS HIER IST NEU
+watch(
+    () => props.game.result,
+    (newResult) => {
+      result.value = newResult || ''
+    }
+)
 
 async function likeGame() {
   await api.post(`/api/games/${props.game.id}/like`, null)
