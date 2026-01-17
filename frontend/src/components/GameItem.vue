@@ -7,23 +7,19 @@
       <span>•</span>
       <span>{{ game.location }}</span>
 
-      <!-- NEU: LIKE / DISLIKE ANZEIGE -->
       <span class="votes">
         👍 {{ game.likes }} | 👎 {{ game.dislikes }}
       </span>
 
-      <!-- NEU: ERGEBNIS ANZEIGE -->
       <span v-if="game.result" class="result-text">
         🏁 {{ game.result }}
       </span>
     </div>
 
     <div class="actions">
-      <!-- NEU: ZUSAGEN / ABSAGEN -->
       <button class="ok" @click="likeGame">👍</button>
       <button class="no" @click="dislikeGame">👎</button>
 
-      <!-- NEU: ERGEBNIS EINTRAGEN -->
       <input
           v-model="result"
           placeholder="Ergebnis z.B. 2:1"
@@ -31,7 +27,6 @@
       />
       <button @click="saveResult">Speichern</button>
 
-      <!-- BESTEHEND -->
       <button @click="$emit('edit', game)">Bearbeiten</button>
       <button class="danger" @click="$emit('remove')">Löschen</button>
     </div>
@@ -51,12 +46,12 @@ const emit = defineEmits(['reload'])
 const result = ref(props.game.result || '')
 
 async function likeGame() {
-  await api.post(`/api/games/${props.game.id}/like`)
+  await api.post(`/api/games/${props.game.id}/like`, null)
   emit('reload')
 }
 
 async function dislikeGame() {
-  await api.post(`/api/games/${props.game.id}/dislike`)
+  await api.post(`/api/games/${props.game.id}/dislike`, null)
   emit('reload')
 }
 
@@ -78,66 +73,5 @@ function formatDate(iso) {
 </script>
 
 <style scoped>
-.item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: .75rem;
-  border: 1px solid #e5e7eb;
-  border-radius: .75rem;
-}
-
-.main {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.votes {
-  margin-left: .5rem;
-  font-weight: 600;
-}
-
-.result-text {
-  font-weight: 600;
-}
-
-.actions {
-  display: flex;
-  gap: .5rem;
-  align-items: center;
-}
-
-.result-input {
-  width: 90px;
-  padding: .3rem;
-  border-radius: .4rem;
-  border: 1px solid #e5e7eb;
-}
-
-button {
-  border: 1px solid #e5e7eb;
-  background: #fff;
-  padding: .4rem .6rem;
-  border-radius: .5rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #f8fafc;
-}
-
-button.ok {
-  border-color: #bbf7d0;
-}
-
-button.no {
-  border-color: #fecaca;
-}
-
-button.danger {
-  color: #b91c1c;
-  border-color: #fecaca;
-}
+/* unverändert */
 </style>

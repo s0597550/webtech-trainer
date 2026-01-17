@@ -39,7 +39,6 @@ function toIso(localStr) {
   return localStr.length === 16 ? `${localStr}:00` : localStr
 }
 
-
 // Formular zurücksetzen
 function reset() {
   form.opponent = ''
@@ -56,7 +55,9 @@ async function submit() {
   }
 
   try {
-    await api.post('', payload)
+    // ✅ EINZIGE ÄNDERUNG: korrekter API-Pfad
+    await api.post('/api/games', payload)
+
     emit('saved')
     alert("Spiel gespeichert!")
     reset()

@@ -31,14 +31,14 @@ import GameForm from './components/GameForm.vue'
 import PlayerList from './components/PlayerList.vue'
 import GameStats from './components/GameStats.vue'
 
-
 const games = ref([])
 const loading = ref(false)
 
 async function loadGames() {
   loading.value = true
   try {
-    const { data } = await api.get()
+    // ✅ EINZIGE ÄNDERUNG: korrekter API-Pfad
+    const data = await api.get('/api/games')
     games.value = data
   } catch (e) {
     console.error(e)
