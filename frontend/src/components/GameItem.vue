@@ -66,11 +66,10 @@ async function dislikeGame() {
 }
 
 async function saveResult() {
-  await api.post(`/api/games/${props.game.id}/result`, {
-    result: result.value
-  })
+  await api.post(`/api/games/${props.game.id}/result`, result.value)
   emit('reload')
 }
+
 
 function formatDate(iso) {
   try {
