@@ -1,4 +1,4 @@
-# Webtechnologien – Projekt (M1)
+# Webtechnologien – Projekt 
 
 **Thema:** Trainer-Website – Spiele im Kalender eintragen und verwalten, Team Verwaltung.
 **Beschreibung:** Trainer können ihre Spiele verwalten, z. B. Gegner, Datum/Uhrzeit und Ort hinzufügen, bearbeiten und anzeigen. Spieler hinzufügen , wobei man dann die Anwesenheit der Spieler angeben kann. Zu/Absagen für die angesetzten Spiele , Spiel Ergebnis eintragen + Siege/Niederlagen/Unentschieden Statistik.
